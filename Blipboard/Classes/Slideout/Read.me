@@ -1,0 +1,32 @@
+SlideoutViewController 
+  * Top-level access point for the left slideout, inherits from ECSlidingViewController
+  * Also manages state of locally unread notifications
+  * Methods:
+    +(id)sharedController 
+        access the single shared instance of this class
+    -(void)addSlideoutMenu:(UIViewController *)viewController
+        instruments a view controller with the left menu button
+    -(void)addMenuButtonAndBadge:(UIViewController *)viewController;
+        convenience method to attach the badge and nav menu button
+    -(SlideoutMenuViewController *)menuViewController
+        convenient access to the singleton menu controller
+    -(void)revealMenu
+        animates open the slideout menu
+    -(NSArray *)notifications / -(void)setNotifications:(NSArray *)
+        updates the notifications in the left slideout menu
+        AND
+        updates all badges
+        
+SlideoutMenuViewController
+  * Code which manages the left slideout menu
+  * Methods:
+    -(void)setSelectedMenuItem:
+        allows programmatic access to which menu item is selected
+    
+
+SlideoutMenu(*)Cell
+    - cells used by SlideoutMenuViewController
+    
+NotificationBadge
+  * Shows the number of new notifications available to the user
+  * Each instance of this badge is updated when SlideoutViewController's notification's property is set

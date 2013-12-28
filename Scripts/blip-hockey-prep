@@ -1,0 +1,45 @@
+#!/bin/bash
+set -e
+for f in "$@"
+do
+    xcarchive="$f"
+    xcarchiveExt=${xcarchive##*.}
+
+    if [ "$xcarchiveExt" != "xcarchive/" -a "$xcarchiveExt" != "xcarchive" ]; then
+        echo "${f} is not a xcarchive"
+        exit
+    fi
+
+    reportError() {
+        echo "An error occurred"
+    }
+    trap 'reportError' EXIT
+    xcarchiveDir=$(dirname "${xcarchive}")
+    dsymDir="${xcarchive}/dSYMs/"
+    appRelPath=`/usr/libexec/PlistBuddy -c "Print ApplicationProperties:ApplicationPath" "${xcarchive}/Info.plist"`
+    appFullPath="${xcarchive}/Products/${appRelPath}"
+    appFile="${appRelPath##*/}" # strip everything up to and including last '/' (app is a dir)
+    appName="${appFile%.*}" # strip extension
+    dsymFile="${appFile}.dSYM"
+    ipaFullPath="${xcarchiveDir}/${appName}.ipa"
+    
+    # create IPA file:
+    identity="iPhone Distribution: Blipboard"
+    provisioningProfile="/Users/aneil/Library/MobileDevice/Provisioning Profiles/6AB822F0-F6F4-4460-B1E8-43D6EA3F6B3C.mobileprovision"
+
+    echo "xcarchive=${xcarchive}"
+    echo "xcarchiveDir=${xcarchiveDir}"
+    echo "dsymDir=${dsymDir}"
+    echo "appRelPath=${appRelPath}"
+    echo "appFullPath=${appFullPath}"
+    echo "appFile=${appFile}"
+    echo "appName=${appName}"
+    echo "dsymFile=${dsymFile}"
+    echo "ipaFullPath=${ipaFullPath}"
+    /usr/bin/xcrun -sdk iphoneos PackageApplication -v "${appFullPath}" -o "${ipaFullPath}" --embed "${provisioningProfile}" #--sign "${identity}" 
+
+    # create dSYM zip:
+    tar -cf "${xcarchiveDir}/${dsymFile}.zip" -C "${dsymDir}" "${dsymFile}"
+
+    trap '' EXIT
+done

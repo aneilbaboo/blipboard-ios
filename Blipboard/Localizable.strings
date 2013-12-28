@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  Blipboard
+
+  Created by Jason Fischl on 8/23/12.
+  Copyright (c) 2012 Blipboard. All rights reserved.
+*/
+"HINT_POPULAR_BLIPS" = "Popular shows you what's trending in your city.  Zoom out to see more.";
+"HINT_ALERTS_BLIPS" = "Your alerts contains the latest stuff from people and places you like.\n";
+"HINT_MY_BLIPS" = "Blips you posted are saved here.\nPress '+' to post a new blip.";

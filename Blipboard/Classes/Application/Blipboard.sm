@@ -1,0 +1,276 @@
+// java -jar smc.jar -graph -glevel 2 Blipboard.sm
+// java -jar smc.jar -objc Blipboard.sm 
+
+%class BBAppDelegate
+%header BBAppDelegate.h
+%start AppFSM::Uninitialized
+%fsmclass BlipboardContext
+
+%map AppFSM
+%%
+//-----------------+---------------+-------------------+-------------+
+//      Start      |               |        End        |             |
+//      State      |   Transition  |       State       |   Actions   |
+//-----------------+---------------+-------------------+-------------+
+Uninitialized
+Entry 
+{
+    showSplashScreen();
+    cancel();
+    onUnauthenticated();
+}
+{
+    OnConnected                         LoadingAccount          {}
+    OnLocation(location: CLLocation*,reason:NSString*)  nil     {}
+    OnLocationError(error: NSError*)                    nil     {}      
+    OnSignificantLocationChange(location: CLLocation*)  nil     {}        
+    OnDisconnected                      NetworkDisconnectedUnauthenticated           {}
+    OnfbSessionInvalidated              nil                     {}
+    OnStartedInBackground               UninitializedHandlingLocationUpdates {}
+}
+
+UninitializedNoLocationUpdates
+Entry 
+{
+    disableSignificantLocationChangeMonitor();
+}
+{
+    OnLocation(location: CLLocation*,reason:NSString*)      nil             { }
+    OnLocationError(error: NSError*)                        nil             { }
+    OnReportedLocation(location:CLLocation*,region: Region*)     nil             { }
+    OnReportedLocationFailed()                              nil             { }
+    OnSignificantLocationChange(location: CLLocation*)      nil             { }
+    OnLeftRegion                                            nil             { }
+    OnDisconnected                                          nil             { }
+    OnfbSessionInvalidated                                  nil             { }
+    OnAuthorizationError(error: NSError*)                   nil             { }
+    OnBecameActive                                          Uninitialized   { resetBackoffLocationUpdates(); }
+}
+
+UninitializedHandlingLocationUpdates
+Entry
+{
+    beginBackgroundLocationUpdate();
+    loadAccountForBackgroundMode();
+    enableSignificantLocationChangeMonitor();
+}
+{
+    OnLocation(location: CLLocation*,reason:NSString*)      nil             { }
+    OnLocationError(error: NSError*)                        nil             { 
+                                                                                endBackgroundLocationUpdate();
+                                                                            }
+    OnReportedLocation(location:CLLocation*,region: Region*) nil            {
+                                                                                setLastReportedLocation(location);
+                                                                                endBackgroundLocationUpdate();
+                                                                            }
+    OnReportedLocationFailed()                              nil             { 
+                                                                                endBackgroundLocationUpdate();
+                                                                            }
+    OnSignificantLocationChange(location: CLLocation*)      nil             { 
+                                                                                updateLocationInBackground(); 
+                                                                            }
+    OnLeftRegion                                            nil             { 
+                                                                            }
+    OnDisconnected                                          nil             { }
+    OnfbSessionInvalidated                                  UninitializedNoLocationUpdates  { }
+    OnAuthorizationError(error: NSError*)                   UninitializedNoLocationUpdates  { }
+
+    OnBecameActive [[ctxt isNetworkReachable]]              LoadingAccount { resetBackoffLocationUpdates(); }
+    OnBecameActive                                          Uninitialized        { resetBackoffLocationUpdates(); }
+}
+
+NetworkDisconnectedUnauthenticated
+Entry
+{
+    showNetworkDisconnectedError();
+}
+Exit
+{
+    hideNetworkDisconnectedError();
+}
+{
+    OnDisconnected                      nil                     {}
+    OnConnected                         Uninitialized           {}
+    OnfbSessionInvalidated              nil                     {}
+}
+
+NetworkDisconnectedAuthenticated
+{
+    OnDisconnected                      nil                     {}
+    OnConnected                         UpdatingLocation        {
+                                                                 hideNetworkDisconnectedError();
+                                                                 retrieveLocation();
+                                                                }
+    OnfbSessionInvalidated              nil                     {}
+    OnLocation(location: CLLocation*, reason:NSString*) nil     {}
+    OnLocationError(error: NSError*)                    nil     {}
+    OnSignificantLocationChange(location: CLLocation*)  nil     {}
+    OnReportedLocation(location:CLLocation*, region: Region*)      nil     {}
+    OnReportedLocationFailed()          nil                     {}
+}
+
+
+LoadingAccount
+Entry 
+{ 
+    loadAccount(); // must be last action
+}
+{
+    OnAccountLoaded()    [![ctxt isFacebookSessionValid]]
+                                    AuthenticationRequired      {}
+    OnAccountLoaded()               ReportingFBToken            {
+                                                                    setupAuthentication();
+                                                                    reportFacebookToken();
+                                                                    requestDeviceToken();
+                                                                }
+                                                                
+    OnfbSessionInvalidated          nil                         {
+                                                                    showAuthDialog();
+                                                                }     
+    OnfbDidNotLogin                 nil                         {
+                                                                    showAuthDialog();
+                                                                }
+    OnfbDidLogin(token: NSString*)  nil                         {
+                                                                    createAccountWithToken(token);
+                                                                }
+
+
+    OnAccountCreated(account: Account*) RetrievingInitialLocation {
+                                                                    setupAuthentication(); 
+                                                                    saveAccount(account); 
+                                                                    showFirstTimeGuruList();
+                                                                    requestDeviceToken();
+                                                                    hideSplashScreen();
+                                                                    setupAuthentication();
+                                                                    onAuthenticated();
+                                                                }
+    OnAccountCreationFailed(error: NSError*)    nil             {
+                                                                    retry(error); 
+                                                                }
+    
+    OnAuthorizationError(error: NSError*)       LoadingAccount  {}
+    
+    OnLocation(location: CLLocation*,reason:NSString*)  nil     {}
+    OnLocationError(error: NSError*)                    nil     {}
+    OnSignificantLocationChange(location: CLLocation*)  nil     {}
+    
+    OnDisconnected                        NetworkDisconnectedUnauthenticated           {}
+}
+
+AuthenticationRequired
+Entry 
+{ 
+    setupAuthentication(); 
+    showAuthDialog();
+}
+{
+    OnfbDidNotLogin                 AuthenticationRequired          {}
+    OnfbDidLogin(token: NSString*)  ReportingFBToken                {
+                                                                      reportFacebookToken(token); 
+                                                                    }
+    OnfbSessionInvalidated          AuthenticationRequired          {}
+    OnLocation(location: CLLocation*,reason:NSString*) nil          {}
+    OnLocationError(error: NSError*)         nil                    {}
+    OnSignificantLocationChange(location: CLLocation*) nil          {}
+    OnDisconnected                  NetworkDisconnectedUnauthenticated    {}
+}
+
+ReportingFBToken
+{
+    OnReportedFBToken(account: Account*)        RetrievingInitialLocation {
+                                                                            hideSplashScreen();
+                                                                            setupAuthentication();
+                                                                            onAuthenticated();
+                                                                        }
+    OnReportedFBTokenFailed(error: NSError*) nil                          { retry(error); }
+    OnAuthorizationError(error: NSError*) AuthenticationRequired        {}
+    OnfbSessionInvalidated              AuthenticationRequired          {}
+    OnLocation(location: CLLocation*,reason:NSString*)  nil             {}
+    OnLocationError(error: NSError*)                    nil             {}
+    OnSignificantLocationChange(location: CLLocation*)  nil             {}
+    OnDisconnected                        NetworkDisconnectedUnauthenticated           {}
+
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// AUTHENTICATED STATES
+//
+////////////////////////////////////////////////////////////////////////////////////////
+RetrievingInitialLocation 
+Entry
+{
+    retrieveLocationWithTimeout(5.0);
+}
+{
+    OnLocation(location: CLLocation*, 
+               reason:NSString*)           ReportingLocation                {
+                                                                                enableSignificantLocationChangeMonitor();
+                                                                                reportLocation(location, reason);
+                                                                            }
+    OnLocationError(error: NSError*)        MonitoringLocationChange        {
+                                                                                enableSignificantLocationChangeMonitor();
+                                                                                informUserOfLocationError(error);
+                                                                            }
+    OnSignificantLocationChange(location: CLLocation*) nil                  {}
+    OnDisconnected                         NetworkDisconnectedAuthenticated {}    
+}
+    
+
+MonitoringLocationChange
+{
+    OnLocation(location: CLLocation*,reason:NSString*)       nil                {}
+    OnLocationError(error: NSError*)    MonitoringLocationChange                {}
+    OnReportedLocationFailed()                  MonitoringLocationChange        { endBackgroundLocationUpdate(); }
+    OnSignificantLocationChange(location: CLLocation*) UpdatingLocation         { retrieveLocation(); }
+    OnLeftRegion                        UpdatingLocation                        { retrieveLocation(); }
+    OnDisconnected                      NetworkDisconnectedAuthenticated        { endBackgroundLocationUpdate(); }
+    OnfbSessionInvalidated              AuthenticationRequired                  {}
+}
+
+UpdatingLocation 
+{
+    OnLocation(location: CLLocation*,reason:NSString*) ReportingLocation {
+                                                                            reportLocation(location, @"UpdatingLocation"); 
+                                                                         }
+    OnLocationError(error: NSError*)        MonitoringLocationChange    { endBackgroundLocationUpdate(); }
+    OnSignificantLocationChange(location: CLLocation*)      nil         {}
+    OnfbSessionInvalidated                  AuthenticationRequired      {}
+    OnDisconnected                          NetworkDisconnectedAuthenticated  { endBackgroundLocationUpdate(); }
+}
+
+ReportingLocation
+{
+    OnReportedLocation(location:CLLocation*,
+                        region: Region*)            MonitoringLocationChange    {
+                                                                                    setLastReportedLocation(location);
+                                                                                    monitorRegionLeave(location,region); 
+                                                                                    endBackgroundLocationUpdate();
+                                                                                }
+    OnReportedLocationFailed()                  MonitoringLocationChange        { endBackgroundLocationUpdate(); }
+    OnfbSessionInvalidated()                     AuthenticationRequired         {}
+    OnLocation(location: CLLocation*,reason:NSString*)        nil               {}
+    OnLocationError(error: NSError*)             nil                            {}
+    OnSignificantLocationChange(location: CLLocation*) nil                      {}
+    OnDisconnected                         NetworkDisconnectedAuthenticated     { endBackgroundLocationUpdate(); }
+}
+
+
+Default
+{
+    OnConnected                             nil                             {}
+    OnfbSessionInvalidated                  AuthenticationRequired          {}
+    OnLeftRegion                            nil                             {}
+    OnAuthorizationError(error: NSError*)     AuthenticationRequired          {}
+    OnReportedTokenFailed(error: NSError*)    nil                             {}
+    OnAccountCreationFailed(error: NSError*)  nil                             {}
+    OnBackgroundTaskExpired                 MonitoringLocationChange        {}
+    OnBecameActive                          nil                             { resetBackoffLocationUpdates(); }
+    
+    // Not really sure why these are needed but it doesn't hurt to have them be a NOOP.
+    OnReportedLocation(location:CLLocation*,region:Region*) nil                       {}
+    OnReportedLocationFailed()              nil                             {endBackgroundLocationUpdate(); }
+}
+
+%%
+

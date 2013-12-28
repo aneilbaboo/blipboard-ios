@@ -1,0 +1,194 @@
+PODS:
+  - AFNetworking (1.2.1)
+  - ASIHTTPRequest (1.8.1):
+    - ASIHTTPRequest/ASIWebPageRequest
+    - ASIHTTPRequest/CloudFiles
+    - ASIHTTPRequest/S3
+    - Reachability
+  - ASIHTTPRequest/ASIWebPageRequest (1.8.1):
+    - Reachability
+  - ASIHTTPRequest/CloudFiles (1.8.1):
+    - Reachability
+  - ASIHTTPRequest/S3 (1.8.1):
+    - Reachability
+  - BlockInjection (0.6.2)
+  - cocoa-oauth (0.0.1):
+    - NSData+Base64 (~> 1.0)
+  - Facebook-iOS-SDK (3.2.1)
+  - FileMD5Hash (0.0.1)
+  - FlurrySDK (4.1.0)
+  - ISO8601DateFormatter (0.6)
+  - JSONKit (1.5pre)
+  - LibComponentLogging-Core (1.3.1)
+  - LibComponentLogging-NSLog (1.0.4):
+    - LibComponentLogging-Core (>= 1.1.6)
+  - MBProgressHUD (0.6)
+  - Nimbus (1.0.0):
+    - Nimbus/AttributedLabel
+    - Nimbus/Badge
+    - Nimbus/Core
+    - Nimbus/CSS
+    - Nimbus/Interapp
+    - Nimbus/Launcher
+    - Nimbus/Models
+    - Nimbus/NetworkControllers
+    - Nimbus/NetworkImage
+    - Nimbus/Operations
+    - Nimbus/Overview
+    - Nimbus/PagingScrollView
+    - Nimbus/Photos
+    - Nimbus/WebController
+  - Nimbus/AttributedLabel (1.0.0):
+    - Nimbus/Core
+  - Nimbus/Badge (1.0.0):
+    - Nimbus/Core
+  - Nimbus/Core (1.0.0)
+  - Nimbus/CSS (1.0.0):
+    - AFNetworking
+    - Nimbus/Core
+  - Nimbus/Interapp (1.0.0):
+    - Nimbus/Core
+  - Nimbus/Launcher (1.0.0):
+    - Nimbus/Core
+  - Nimbus/Models (1.0.0):
+    - Nimbus/Core
+  - Nimbus/NetworkControllers (1.0.0):
+    - Nimbus/Core
+  - Nimbus/NetworkImage (1.0.0):
+    - Nimbus/Core
+  - Nimbus/Operations (1.0.0):
+    - Nimbus/Core
+    - Nimbus/Operations/JSON
+  - Nimbus/Operations/JSON (1.0.0):
+    - JSONKit
+    - Nimbus/Core
+  - Nimbus/Overview (1.0.0):
+    - Nimbus/Core
+  - Nimbus/PagingScrollView (1.0.0):
+    - Nimbus/Core
+  - Nimbus/Photos (1.0.0):
+    - Nimbus/Core
+    - Nimbus/PagingScrollView
+  - Nimbus/WebController (1.0.0):
+    - Nimbus/Core
+  - NSData+Base64 (1.0.0)
+  - NSLogger (1.1)
+  - objectiveflickr (2.0.2)
+  - OCMock (2.0.1)
+  - Reachability (3.1.0)
+  - RestKit (0.10.3):
+    - RestKit/JSON
+  - RestKit/JSON (0.10.3):
+    - RestKit/Network
+    - RestKit/ObjectMapping/CoreData
+    - RestKit/ObjectMapping/JSON
+    - RestKit/UI
+  - RestKit/Network (0.10.3):
+    - cocoa-oauth
+    - FileMD5Hash
+    - LibComponentLogging-NSLog (>= 1.0.4)
+    - SOCKit
+  - RestKit/ObjectMapping (0.10.3):
+    - ISO8601DateFormatter (>= 0.6)
+    - RestKit/Network
+    - RestKit/ObjectMapping/Core
+    - RestKit/ObjectMapping/CoreData
+    - RestKit/ObjectMapping/JSON
+    - RestKit/ObjectMapping/XML
+  - RestKit/ObjectMapping/Core (0.10.3):
+    - ISO8601DateFormatter (>= 0.6)
+    - RestKit/Network
+  - RestKit/ObjectMapping/CoreData (0.10.3):
+    - ISO8601DateFormatter (>= 0.6)
+    - RestKit/Network
+    - RestKit/ObjectMapping/Core
+  - RestKit/ObjectMapping/JSON (0.10.3):
+    - ISO8601DateFormatter (>= 0.6)
+    - JSONKit (>= 1.5pre)
+    - RestKit/Network
+    - RestKit/ObjectMapping/Core
+  - RestKit/ObjectMapping/XML (0.10.3):
+    - ISO8601DateFormatter (>= 0.6)
+    - RestKit/Network
+    - RestKit/ObjectMapping/Core
+    - XMLReader
+  - RestKit/UI (0.10.3)
+  - SBJson (3.2)
+  - ShareKit (2.0):
+    - Reachability
+    - ShareKit/Facebook
+    - ShareKit/Flickr
+    - ShareKit/Foursquare
+    - ShareKit/Tumblr
+    - ShareKit/Twitter
+    - SSKeychain (= 0.2.1)
+  - ShareKit/Facebook (2.0):
+    - Facebook-iOS-SDK (~> 3.2.1)
+    - Reachability
+    - SSKeychain (= 0.2.1)
+  - ShareKit/Flickr (2.0):
+    - objectiveflickr (= 2.0.2)
+    - Reachability
+    - SSKeychain (= 0.2.1)
+  - ShareKit/Foursquare (2.0):
+    - Reachability
+    - SBJson
+    - SSKeychain (= 0.2.1)
+  - ShareKit/Tumblr (2.0):
+    - Reachability
+    - SSKeychain (= 0.2.1)
+  - ShareKit/Twitter (2.0):
+    - JSONKit
+    - Reachability
+    - SSKeychain (= 0.2.1)
+  - SOCKit (1.1)
+  - SSKeychain (0.2.1)
+  - TestFlightSDK (1.3.0.beta2)
+  - XMLReader (0.0.2)
+
+DEPENDENCIES:
+  - ASIHTTPRequest (~> 1.8.1)
+  - BlockInjection (~> 0.6.2)
+  - Facebook-iOS-SDK (~> 3.2.1)
+  - FlurrySDK (~> 4.1.0)
+  - MBProgressHUD (~> 0.6)
+  - Nimbus (~> 1.0.0)
+  - NSLogger (~> 1.1)
+  - OCMock (~> 2.0.1)
+  - RestKit (~> 0.10.3)
+  - RestKit/ObjectMapping (~> 0.10.3)
+  - ShareKit (from `ShareKit.podspec`)
+  - TestFlightSDK (~> 1.3.0.beta2)
+
+EXTERNAL SOURCES:
+  ShareKit:
+    :podspec: ShareKit.podspec
+
+SPEC CHECKSUMS:
+  AFNetworking: 616da0028916ce296f5c3cef74e5552eb4e10e13
+  ASIHTTPRequest: a79e32b54f92471bff8979f3b82182f0e9b6992c
+  BlockInjection: f83a5fb291072032df4efaae6a30958068bc9d4a
+  cocoa-oauth: 8f4c8b77c77ac660de37f8125557c4ec09b0118a
+  Facebook-iOS-SDK: 514dc0d7d43358999267c88c088e4b5b339b7da1
+  FileMD5Hash: c3b015e6fb293eea0a0c276747f61f20408c2644
+  FlurrySDK: 52245ae8c6fa31825dc74a6afb94b861da2435fa
+  ISO8601DateFormatter: dc05a2481edf49668d85d3ff8c466c32eb544780
+  JSONKit: 409734ab3407fce90ef7eaa95d7168f38d9a6601
+  LibComponentLogging-Core: 344f6045453ca28fa8f2909eb9624ec9d15ef256
+  LibComponentLogging-NSLog: a4bb0f6de612eef7b5fcdbd9cc96dc868ba1f2df
+  MBProgressHUD: 9b55a90566fb5d07df0602f6fd9fa04510ad5d52
+  Nimbus: 196175ecaddf4e88925c9e0441aa58e4e40a2b89
+  NSData+Base64: 36c4e5b6479259c1a68866ccd2a8dd385c9744f7
+  NSLogger: 4567fef08d0db18a89cce91b2053823fc0950738
+  objectiveflickr: 17f5f1fd4b9b9d6761a9545493c79221f65604c3
+  OCMock: 77a9c4c57af6bf258a537d34cf09abf422affede
+  Reachability: ba94ecd4eaa037be3d0588b38956672588530c5b
+  RestKit: f7a8675cd98976f70bd8fdad45750b41d5754d8b
+  SBJson: 4971016670e7b3fa04a36d4e72ab0fb1ad3a9f69
+  ShareKit: f0afa2be9f30cdb82d5c5e757ad9990c9ddedcd0
+  SOCKit: ed67aeeca4a697b63a933229e53f4670d5b9300f
+  SSKeychain: ffa1a79eb716d9ed1ca184fb0cf218087ca28486
+  TestFlightSDK: 185b9bfd710bfb85ce5f57bcb89651330081090f
+  XMLReader: d8a522b0362140b328bcaec7f289ff4ffffebf29
+
+COCOAPODS: 0.17.2

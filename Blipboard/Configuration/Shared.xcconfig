@@ -1,0 +1,47 @@
+//
+//  Shared.xcconfig
+//  Blipboard
+//
+//  Created by Aneil Mallavarapu on 4/18/13.
+//  Copyright (c) 2013 Blipboard. All rights reserved.
+//
+
+// configured for use with com.blipboard.blipboard
+// All configurations with this com.blipboard.blipboard point at the production server
+URBANAIRSHIP_DEV_USERNAME="urban-airship-dev-username-for-com.blipboard.blipboard"
+URBANAIRSHIP_DEV_PASSWORD="urban-airship-dev-password-for-com.blipboard.blipboard"
+URBANAIRSHIP_PROD_USERNAME="urban-airship-prod-username-for-com.blipboard.blipboard"
+URBANAIRSHIP_PROD_PASSWORD="urban-airship-prod-password-for-com.blipboard.blipboard"
+
+// configured for use with com.blipboard.whistle
+// All configurations with this com.blipboard.whistle point at the staging server.
+URBANAIRSHIP_WHISTLE_DEV_USERNAME="urban-airship-dev-username-for-com.blipboard.whistle"
+URBANAIRSHIP_WHISTLE_DEV_PASSWORD="urban-airship-dev-password-for-com.blipboard.whistle"
+URBANAIRSHIP_WHISTLE_PROD_USERNAME="urban-airship-prod-username-for-com.blipboard.whistle"
+URBANAIRSHIP_WHISTLE_PROD_PASSWORD="urban-airship-prod-password-for-com.blipboard.whistle"
+
+
+INTERCOM_PROD_API_KEY="intercom-prod-api-key-here"
+INTERCOM_PROD_APP_ID="intercom-prod-app-id-here"
+INTERCOM_STAGING_API_KEY="intercom-staging-api-key-here"
+INTERCOM_STAGING_APP_ID="intercom-staging-app-id-here"
+
+FLURRY_PRODUCTION_API_KEY="flurry-prod-api-key-here" // production
+FLURRY_DEVEL_API_KEY="flurry-staging-api-key-here" // devel
+
+TESTFLIGHT_PRODUCTION_TOKEN="testflight-com.blipboard.blipboard-token-here"
+TESTFLIGHT_WHISTLE_TOKEN="testflight-com.blipboard.whistle-token-here"
+
+FACEBOOK_PRODUCTION_APP_ID=facebook-prod-app-id-here // (no quotes)
+FACEBOOK_STAGING_APP_ID=facebook-staging-app-id-here // (no quotes)
+
+PRODUCTION_APP_ID=com.blipboard.blipboard
+PRODUCTION_BUNDLE_SEED_ID=ABCD123 // apple bundle seed id available from iOS dev portal
+
+STAGING_APP_ID=com.blipboard.whistle
+STAGING_BUNDLE_SEED_ID=ABCD123 // apple bundle seed id available from iOS dev portal
+
+
+PRODUCTION_API_URLS="https:\/\/api.blipboard.com,https:\/\/api1.blipboard.com,https:\/\/api2.blipboard.com,https:\/\/api3.blipboard.com,https:\/\/api4.blipboard.com,https:\/\/api5.blipboard.com"
+STAGING_API_URLS="https:\/\/blipboard-staging.herokuapp.com"
+API_URLS=STAGING_API_URLS

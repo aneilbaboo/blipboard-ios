@@ -1,0 +1,8 @@
+#!/bin/sh
+scriptDir=$(cd `dirname $0` && pwd);
+projectDir=`dirname $scriptDir`
+appFile="${projectDir}/DerivedData/Blipboard/Build/Products/Release-iphonesimulator/Blipboard SF.app"
+echo "Uploading Blipboard App to Pieceable:"
+echo "${appFile}"
+
+ditto -cz "${appFile}" - | curl -F "key=41ed47b5fd23645d856baa16708dbce81fbd1502" -F "file=@-" http://www.pieceable.com/view/publish

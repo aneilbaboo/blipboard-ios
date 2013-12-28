@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Localhost</key>
+	<dict>
+		<key>apiURL</key>
+		<array>
+			<string>http://localhost:3000</string>
+		</array>
+	</dict>
+	<key>DebugS</key>
+	<dict>
+		<key>apiURL</key>
+		<array>
+			<string>https://blipboard-staging.herokuapp.com</string>
+		</array>
+	</dict>
+	<key>DebugP</key>
+	<dict>
+		<key>apiURL</key>
+		<array>
+			<string>https://api.blipboard.com/</string>
+			<string>https://api1.blipboard.com/</string>
+			<string>https://api2.blipboard.com/</string>
+			<string>https://api3.blipboard.com/</string>
+		</array>
+	</dict>
+	<key>Release</key>
+	<dict>
+		<key>apiURL</key>
+		<array>
+			<string>https://api.blipboard.com/</string>
+			<string>https://api1.blipboard.com/</string>
+			<string>https://api2.blipboard.com/</string>
+			<string>https://api3.blipboard.com/</string>
+		</array>
+	</dict>
+	<key>Alpha</key>
+	<dict>
+		<key>apiURL</key>
+		<array>
+			<string>https://blipboard-staging.herokuapp.com</string>
+			<string>https://blipboard-staging.herokuapp.com</string>
+		</array>
+	</dict>
+	<key>Beta</key>
+	<dict>
+		<key>apiURL</key>
+		<array>
+			<string>https://api.blipboard.com/</string>
+			<string>https://api1.blipboard.com/</string>
+			<string>https://api2.blipboard.com/</string>
+			<string>https://api3.blipboard.com/</string>
+		</array>
+	</dict>
+</dict>
+</plist>
